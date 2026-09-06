@@ -1,5 +1,10 @@
 """Gemini integration: structured output, schema validation, hallucination check.
 
+Uses the modern `google-genai` SDK (httpx-based). The older `google-generativeai`
+SDK was unreliable on the deployed container: its default gRPC transport hung
+indefinitely, and its REST transport raised a latin-1 encoding error. `google-genai`
+avoids both.
+
 The flow is deliberately defensive:
   1. Ask Gemini for JSON matching our schema (response_mime_type=application/json).
   2. Parse + validate against `AiAnalysis` (Pydantic). Malformed output raises.
@@ -13,7 +18,8 @@ import json
 import re
 from pathlib import Path
 
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 from pydantic import ValidationError
 
 from .config import settings
@@ -24,12 +30,11 @@ _PROMPT_TEMPLATE = (Path(__file__).parent.parent / "prompts" / "analysis_v1.txt"
     encoding="utf-8"
 )
 
-# Use the REST transport, not the default gRPC. gRPC can hang indefinitely in some
-# container/serverless networks (e.g. Render), while working fine locally.
-genai.configure(api_key=settings.gemini_api_key, transport="rest")
-
-# Hard timeout per request so a slow/stuck call fails fast instead of hanging.
-_REQUEST_TIMEOUT_S = 30
+# Hard per-request timeout (ms) so a slow/stuck call fails fast instead of hanging.
+_client = genai.Client(
+    api_key=settings.gemini_api_key,
+    http_options=types.HttpOptions(timeout=30_000),
+)
 
 
 class AiAnalysisError(Exception):
@@ -49,13 +54,11 @@ def _verify_evidence(analysis: AiAnalysis, note_text: str) -> AiAnalysis:
 
 
 def _call_gemini(note_text: str) -> str:
-    model = genai.GenerativeModel(
-        settings.gemini_model,
-        generation_config={"response_mime_type": "application/json"},
-    )
     prompt = _PROMPT_TEMPLATE.replace("{note_text}", note_text)
-    response = model.generate_content(
-        prompt, request_options={"timeout": _REQUEST_TIMEOUT_S}
+    response = _client.models.generate_content(
+        model=settings.gemini_model,
+        contents=prompt,
+        config=types.GenerateContentConfig(response_mime_type="application/json"),
     )
     return response.text
 
