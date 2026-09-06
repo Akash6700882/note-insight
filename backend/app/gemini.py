@@ -30,9 +30,14 @@ _PROMPT_TEMPLATE = (Path(__file__).parent.parent / "prompts" / "analysis_v1.txt"
     encoding="utf-8"
 )
 
+# Sanitize the key: strip whitespace and any stray non-ASCII characters. API keys
+# are always ASCII, and a copy-paste artifact (e.g. a box-drawing char) in the env
+# var otherwise crashes header encoding with "'ascii' codec can't encode ...".
+_API_KEY = "".join(c for c in settings.gemini_api_key if c.isascii() and not c.isspace())
+
 # Hard per-request timeout (ms) so a slow/stuck call fails fast instead of hanging.
 _client = genai.Client(
-    api_key=settings.gemini_api_key,
+    api_key=_API_KEY,
     http_options=types.HttpOptions(timeout=30_000),
 )
 
