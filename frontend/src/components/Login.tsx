@@ -25,7 +25,7 @@ export function Login({ auth }: { auth: AuthState }) {
   return (
     <div className="centered">
       <form className="card auth-card" onSubmit={submit}>
-        <h1>Note Insight</h1>
+        <h1>DoctusTech</h1>
         <p className="muted">Structured feedback on a clinical note in seconds.</p>
 
         <label>

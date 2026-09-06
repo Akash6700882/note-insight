@@ -16,7 +16,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <h1>Note Insight</h1>
+        <h1>DoctusTech</h1>
         <div className="row">
           <span className="muted">{auth.user.email}</span>
           <button className="link" onClick={auth.logout}>
