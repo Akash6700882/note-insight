@@ -1,0 +1,17 @@
+# One-service deploy on Render: builds the Docker image (frontend + backend) and
+# runs it at a single public URL. Set the secret env vars in the Render dashboard.
+services:
+  - type: web
+    name: note-insight
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-1.5-flash
+      - key: FIREBASE_CREDENTIALS_JSON
+        sync: false
+      - key: VITE_FIREBASE_CONFIG
+        sync: false
