@@ -9,7 +9,7 @@ The machine produces a draft; the clinician is the authority.
 
 - **Live URL:** https://doctustech.onrender.com/
 - **Test account:** sign up with any email + password on the login screen (min 6 chars).
-  Note: the free Render instance sleeps when idle, so the first request may take
+  Note: the free Render instanc sleeps when idle, so the first request may take
   ~30–50s to wake.
 
 ---
