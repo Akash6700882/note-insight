@@ -29,7 +29,7 @@ The machine produces a draft; the clinician is the authority.
 ## Data model (the part I thought about first)
 
 Four **separate** entities. Collapsing them would break the moment a note is
-re-analysed or a reviewer disagrees with the model.
+re-analysed or a reviewer disagrees wit the model.
 
 ```
 User            id (Firebase uid), email
