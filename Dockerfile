@@ -16,6 +16,13 @@ RUN npm run build
 
 # ---- stage 2: backend + built frontend ----
 FROM python:3.12-slim
+# Force UTF-8 everywhere. The slim image defaults to an ASCII/POSIX locale, which
+# makes Python raise "'ascii' codec can't encode" when request text contains any
+# non-ASCII character. UTF-8 mode avoids that.
+ENV PYTHONUTF8=1 \
+    PYTHONIOENCODING=utf-8 \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8
 WORKDIR /app
 COPY backend/requirements.txt ./backend/requirements.txt
 RUN pip install --no-cache-dir -r backend/requirements.txt
