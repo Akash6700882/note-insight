@@ -24,7 +24,12 @@ _PROMPT_TEMPLATE = (Path(__file__).parent.parent / "prompts" / "analysis_v1.txt"
     encoding="utf-8"
 )
 
-genai.configure(api_key=settings.gemini_api_key)
+# Use the REST transport, not the default gRPC. gRPC can hang indefinitely in some
+# container/serverless networks (e.g. Render), while working fine locally.
+genai.configure(api_key=settings.gemini_api_key, transport="rest")
+
+# Hard timeout per request so a slow/stuck call fails fast instead of hanging.
+_REQUEST_TIMEOUT_S = 30
 
 
 class AiAnalysisError(Exception):
@@ -49,7 +54,9 @@ def _call_gemini(note_text: str) -> str:
         generation_config={"response_mime_type": "application/json"},
     )
     prompt = _PROMPT_TEMPLATE.replace("{note_text}", note_text)
-    response = model.generate_content(prompt)
+    response = model.generate_content(
+        prompt, request_options={"timeout": _REQUEST_TIMEOUT_S}
+    )
     return response.text
 
 
