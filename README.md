@@ -18,7 +18,7 @@ The machine produces a draft; the clinician is the authority.
 |-------|--------|
 | Frontend | React + TypeScript (Vite), strict mode, no `any` |
 | Backend | Python + FastAPI, Pydantic validation |
-| AI | Google Gemini (`gemini-1.5-flash`), JSON structured output |
+| AI | Google Gemini (`gemini-flash-latest`), JSON structured output |
 | Auth + DB | Firebase Authentication + Firestore |
 | Deploy | Single Docker image on Render (FastAPI serves the built React app) |
 
@@ -195,6 +195,9 @@ The `Dockerfile` builds the React app and serves it from FastAPI — one image, 
 - No caching of identical notes, no rate limiting, no PDF/image upload.
 - Styling is intentionally minimal — clarity over polish.
 - History sorts in memory rather than via a composite index (fine at this scale).
+- Gemini free tier is limited to ~5 requests/min; rapid repeated analyses can hit a
+  429. The app surfaces this as a clear error and the note is never lost — caching and
+  per-user rate limiting (listed above) would address it.
 
 ## Time spent
 
