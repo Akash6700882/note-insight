@@ -1,4 +1,4 @@
-# Note Insight
+# DoctusTech
 
 Paste a free-text clinical note, get back a **structured, evidence-linked read** of
 what it contains — conditions, documentation quality, suggested ICD-10 codes, and the
