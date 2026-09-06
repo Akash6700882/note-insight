@@ -2,7 +2,7 @@
 and scopes all data access to that uid. A note that isn't yours returns 404 — we don't
 even confirm it exists.
 """
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
@@ -67,7 +67,7 @@ def analyze(note_id: str, uid: str = Depends(get_current_uid)) -> AnalysisOut:
         status="success",
         model_name=settings.gemini_model,
         prompt_version=PROMPT_VERSION,
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
         conditions=analysis.conditions,
         documentation_gaps=analysis.documentation_gaps,
         summary=analysis.summary,
@@ -148,5 +148,5 @@ def submit_review(
         conditions=payload.conditions,
         documentation_gaps=payload.documentation_gaps,
         summary=payload.summary,
-        updated_at=datetime.utcnow(),
+        updated_at=datetime.now(timezone.utc),
     )
