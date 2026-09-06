@@ -1,0 +1,14 @@
+Patient is a 67-year-old former smoker (40 pack-years, quit 5 years ago) presenting
+with increased cough and wheeze over the past month. Uses albuterol inhaler "a few
+times a week." Reports low mood, poor sleep, and loss of interest in activities she
+used to enjoy since her husband passed six months ago.
+
+Exam: mild expiratory wheeze bilaterally, O2 sat 95% on room air. Affect flat.
+
+Impression:
+- COPD, moderate, with recent increase in symptoms. Continue albuterol PRN, add
+  tiotropium daily. Discussed pulmonary rehab.
+- Screened positive for depression (PHQ-9 = 14). Discussed starting sertraline and
+  referral to behavioral health; patient agreeable.
+
+Follow up in 6 weeks.
