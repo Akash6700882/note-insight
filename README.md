@@ -7,8 +7,10 @@ The machine produces a draft; the clinician is the authority.
 
 > Built for the DoctusTech technical assessment. All notes are synthetic.
 
-- **Live URL:** _<add your Render URL here>_
-- **Test account:** _<add email / password, or sign up on the login screen>_
+- **Live URL:** https://doctustech.onrender.com/
+- **Test account:** sign up with any email + password on the login screen (min 6 chars).
+  Note: the free Render instance sleeps when idle, so the first request may take
+  ~30–50s to wake.
 
 ---
 
@@ -18,7 +20,7 @@ The machine produces a draft; the clinician is the authority.
 |-------|--------|
 | Frontend | React + TypeScript (Vite), strict mode, no `any` |
 | Backend | Python + FastAPI, Pydantic validation |
-| AI | Google Gemini (`gemini-flash-latest`), JSON structured output |
+| AI | Google Gemini (`gemini-flash-lite-latest`), JSON structured output |
 | Auth + DB | Firebase Authentication + Firestore |
 | Deploy | Single Docker image on Render (FastAPI serves the built React app) |
 

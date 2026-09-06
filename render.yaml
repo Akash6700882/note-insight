@@ -10,7 +10,7 @@ services:
       - key: GEMINI_API_KEY
         sync: false
       - key: GEMINI_MODEL
-        value: gemini-flash-latest
+        value: gemini-flash-lite-latest
       - key: FIREBASE_CREDENTIALS_JSON
         sync: false
       - key: VITE_FIREBASE_CONFIG
